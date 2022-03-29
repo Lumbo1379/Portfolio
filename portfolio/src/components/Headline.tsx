@@ -7,7 +7,7 @@ interface IHeadline {
     keywords?: { [key: string]: string }
 }
 
-const getWordWithSpace = (word: string): string => `${word} `;
+const getWord = (word: string, whitespace: string): string => `${word}${whitespace}`;
 
 const Headline = ({ content, keywords }: IHeadline) => {
     const words = content.split(' ');
@@ -15,11 +15,13 @@ const Headline = ({ content, keywords }: IHeadline) => {
     return(
         <Fragment>
             <h1>
-                {words.map((word, i) => 
-                    keywords && word in keywords ?
-                    <span key={i} style={{color: `${keywords[word]}`}}>{getWordWithSpace(word)}</span> :
-                    getWordWithSpace(word) 
-                )}
+                {words.map((word, i, { length }) => {
+                    const whitespace = i + 1 === length ? '' : ' ';
+
+                    return keywords && word in keywords ?
+                    <span key={i} style={{color: `${keywords[word]}`}}>{getWord(word, whitespace)}</span> :
+                    getWord(word, whitespace);
+                })}
             </h1>
         </Fragment>
     )

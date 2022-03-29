@@ -15,6 +15,12 @@ describe('<Headline />', () => {
     it('displays the content', () => {
         const wrapper = shallow(<Headline content="This is my headline" keywords={{ "is": "#FF0000", "headline": "#0000FF" }} />);
 
-        expect(wrapper.text().includes("This is my headline ")).toBeTruthy();
+        expect(wrapper.text().includes("This is my headline")).toBeTruthy();
+    });
+
+    it('displays the content without passing keywords', () => {
+        const wrapper = shallow(<Headline content="This is my headline" />);
+
+        expect(wrapper.text().includes("This is my headline")).toBeTruthy();
     });
 });

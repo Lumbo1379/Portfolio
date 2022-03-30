@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { ReactElement } from 'react';
 
 // Doesn't support the same keyword in different colours.
 
@@ -7,24 +7,31 @@ interface IHeadline {
     keywords?: { [key: string]: string }
 }
 
-const getWord = (word: string, whitespace: string): string => `${word}${whitespace}`;
+const getWord = (word: string, whitespace: string): string => (
+    `${word}${whitespace}`
+);
 
-const Headline = ({ content, keywords }: IHeadline) => {
+const Headline = ({ content, keywords = {} }: IHeadline): ReactElement => {
     const words = content.split(' ');
 
-    return(
-        <Fragment>
-            <h1>
-                {words.map((word, i, { length }) => {
-                    const whitespace = i + 1 === length ? '' : ' ';
+    return (
+        <h1>
+            {words.map((word, i, { length }) => {
+                const whitespace = i + 1 === length ? '' : ' ';
 
-                    return keywords && word in keywords ?
-                    <span key={i} style={{color: `${keywords[word]}`}}>{getWord(word, whitespace)}</span> :
-                    getWord(word, whitespace);
-                })}
-            </h1>
-        </Fragment>
-    )
+                return keywords && word in keywords
+                    ? (
+                        <span
+                            key={i}
+                            style={{ color: `${keywords[word]}` }}
+                        >
+                            {getWord(word, whitespace)}
+                        </span>
+                    )
+                    : getWord(word, whitespace);
+            })}
+        </h1>
+    );
 };
 
 export default Headline;

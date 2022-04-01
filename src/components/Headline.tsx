@@ -17,7 +17,7 @@ const Headline = ({ content, keywords = {} }: IHeadline): ReactElement => {
     return (
         <h1>
             {words.map((word, i, { length }) => {
-                const whitespace = i + 1 === length ? '' : ' ';
+                const whitespace = i + 1 === length ? '' : ' '
 
                 return keywords && word in keywords
                     ? (

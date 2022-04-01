@@ -30,9 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        
+
       - name: Run eslint
-        run: eslint . --ext .js,.jsx,.ts,.tsx
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx
 
       - name: Run tests and generate coverage report
         run: npm test -- --coverage
@@ -46,6 +46,7 @@ jobs:
         run: npm run build
 
       - name: Deploy
+        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name $user_name
           git config --global user.email $user_email

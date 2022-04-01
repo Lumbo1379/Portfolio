@@ -30,6 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        
+      - name: Run eslint
+        run: npx eslint .\src\**
 
       - name: Run tests and generate coverage report
         run: npm test -- --coverage

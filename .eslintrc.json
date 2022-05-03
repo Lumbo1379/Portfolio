@@ -27,6 +27,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "guard-for-in": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
@@ -36,7 +37,17 @@
             }
         ],
         "indent": ["error", 4],
-        "max-len": ["warn", { "code": 80 }],
+        "max-len": ["warn", { "code": 110 }],
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "no-restricted-syntax": "off",
+        "no-unused-vars": "warn",
+        "object-curly-newline": "warn",
+        "quotes": "warn",
         "react/function-component-definition": [2, {
             "namedComponents": "arrow-function",
             "unnamedComponents": "arrow-function"

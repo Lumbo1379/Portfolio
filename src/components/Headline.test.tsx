@@ -15,8 +15,8 @@ describe('<Headline />', () => {
         const keywords = wrapper.find('span');
 
         expect(keywords).toHaveLength(2);
-        expect(keywords.get(0).props.style).toHaveProperty('color', '#FF0000');
-        expect(keywords.get(1).props.style).toHaveProperty('color', '#0000FF');
+        expect(keywords.get(0).props.style).toHaveProperty('background', '#FF0000');
+        expect(keywords.get(1).props.style).toHaveProperty('background', '#0000FF');
     });
 
     it('renders a h1 with the correct classes', () => {

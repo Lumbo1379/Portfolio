@@ -16,12 +16,102 @@ h1 {
   text-align: center;
 }
 
+body {
+  overflow-y: scroll;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+p {
+  font-size: calc(0.5em + 0.2vw);
+  font-family: poppings, sans-serif;
+  font-style: normal;
+  font-weight: 200;
+}
+
 .img-responsive {
   max-height: 100%;
   min-height: 100%;
   min-width: 100%;
   max-width: 100%;
-  object-fit: cover;
+}
+
+.overlay-container {
+  position: relative;
+}
+
+.image-tag-overlay-top {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  top: 0;
+  left: 0;
+}
+
+.image-tag-overlay-bottom {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  bottom: 0;
+  left: 0;
+}
+
+.image-description-overlay {
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+
+.image-description-overlay-listener {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+}
+
+.background-fadeOut{
+  opacity: 0;
+  width: 0;
+  height: 0;
+  transition: width 0.5s, height 0.5s, opacity 0.5s;
+}
+
+.background-fadeIn{
+  opacity: 0.6;
+  width: 100%;
+  height: 100%;
+  transition: width 0.5s, height 0.5s, opacity 0.5s;
+}
+
+.text-fadeOut{
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.text-fadeIn{
+  opacity: 1;
+  transition: opacity 0.5s 0.3s;
+}
+
+.tag-text {
+  font-size: calc(0.5em + 0.4vw);
+  font-family: poppings, sans-serif;
+  font-style: normal;
+  font-weight: 200;
+  margin: 7.5px 0 3.75px 3.75px;
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--tag-colour, #F7D5A1);
+}
+
+.image-content-text {
+  color: white;
+  padding: 10px;
+  text-align: justify;
+  user-select: none;
 }
 
 .custom-grid {
@@ -29,6 +119,11 @@ h1 {
   grid: repeat(var(--grid-rows, 1), 1fr) / repeat(var(--grid-columns, 1), 1fr);
   gap: 5px;
   justify-content: center;
+}
+
+.display-1 {
+  font-family: lora, serif;
+  font-style: normal;
 }
 
 .custom-margin {

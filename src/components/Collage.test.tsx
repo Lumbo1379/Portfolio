@@ -8,7 +8,20 @@ import soulSurvivor from '../media/soul-survivor.gif';
 describe('<Collage />', () => {
     const collage = (
         <Collage
-            images={[arXRay, soulSurvivor, tanks]}
+            images={[
+                {
+                    src: arXRay,
+                    alt: '',
+                },
+                {
+                    src: soulSurvivor,
+                    alt: '',
+                },
+                {
+                    src: tanks,
+                    alt: '',
+                },
+            ]}
             layout={[
                 [0, 1],
                 [0, 2],
@@ -32,12 +45,12 @@ describe('<Collage />', () => {
         const images = wrapper.find('Image');
 
         expect(images).toHaveLength(3);
-        expect(images.get(0).props.style).toHaveProperty('gridColumn', '1 / 2');
-        expect(images.get(0).props.style).toHaveProperty('gridRow', '1 / 3');
-        expect(images.get(1).props.style).toHaveProperty('gridColumn', '2 / 3');
-        expect(images.get(1).props.style).toHaveProperty('gridRow', '1 / 2');
-        expect(images.get(2).props.style).toHaveProperty('gridColumn', '2 / 3');
-        expect(images.get(2).props.style).toHaveProperty('gridRow', '2 / 3');
+        expect(images.get(0).props.config.style).toHaveProperty('gridColumn', '1 / 2');
+        expect(images.get(0).props.config.style).toHaveProperty('gridRow', '1 / 3');
+        expect(images.get(1).props.config.style).toHaveProperty('gridColumn', '2 / 3');
+        expect(images.get(1).props.config.style).toHaveProperty('gridRow', '1 / 2');
+        expect(images.get(2).props.config.style).toHaveProperty('gridColumn', '2 / 3');
+        expect(images.get(2).props.config.style).toHaveProperty('gridRow', '2 / 3');
     });
 
     it('renders a grid with the correct classes', () => {

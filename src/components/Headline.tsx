@@ -23,7 +23,7 @@ const Headline = ({ content, keywords = {} }: IHeadline): ReactElement => {
                     ? (
                         <span
                             key={i}
-                            style={{ color: `${keywords[word]}` }}
+                            style={{ background: `${keywords[word]}` }}
                         >
                             {getWord(word, whitespace)}
                         </span>

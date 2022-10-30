@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import Image from './Image';
+import logger from '../services/logService';
 
 import tanks from '../media/tanks.gif';
 
@@ -40,6 +41,10 @@ describe('<Image />', () => {
             alt="Tanks"
         />
     );
+
+    afterAll(() => {
+        jest.restoreAllMocks();
+    });
 
     it('renders an img with the correct properties', () => {
         render(IMAGE);
@@ -113,5 +118,37 @@ describe('<Image />', () => {
         const img = screen.getByRole('img');
 
         expect(img.className).toBe('img-responsive');
+    });
+
+    it('show error when too many tag sets are passed', () => {
+        const loggerErrorSpy = jest.spyOn(logger, 'error');
+
+        render(<Image
+            src={tanks}
+            alt="Tanks"
+            config={{
+                tags: [[
+                    {
+                        description: 'Some title',
+                        colour: '',
+                    },
+                ], [
+                    {
+                        description: 'Tag 1',
+                        colour: '',
+                    },
+                ], [
+                    {
+                        description: 'Too many tag sets tag',
+                        colour: '',
+                    },
+                ]],
+            }}
+        />);
+
+        expect(loggerErrorSpy).toHaveBeenCalledWith(
+            'Images can contain no more than two tag sets',
+        );
+        expect(screen.getByRole('img')).toBeTruthy();
     });
 });

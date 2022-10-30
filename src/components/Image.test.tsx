@@ -1,4 +1,5 @@
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+
 import Image from './Image';
 
 import tanks from '../media/tanks.gif';
@@ -23,12 +24,11 @@ describe('<Image />', () => {
                         description: 'Tag 2',
                         colour: '',
                     },
-                ],
-                ],
+                ]],
                 link: 'www.somelink.com',
                 content: 'Some content',
                 style: {
-                    someStyleProp: 'true',
+                    '--someStyleProp': 'true',
                 },
             }}
         />
@@ -42,117 +42,76 @@ describe('<Image />', () => {
     );
 
     it('renders an img with the correct properties', () => {
-        const wrapper = shallow(IMAGE);
+        render(IMAGE);
 
-        const img = wrapper.find('img');
+        const img = screen.getByRole('img');
 
-        expect(img).toHaveLength(1);
-        expect(img.get(0).props.alt).toBe('Tanks');
-        expect(img.get(0).props.src).toBe('tanks.gif');
+        expect(img).toHaveProperty('alt', 'Tanks');
+        expect(img).toHaveProperty('src', 'http://localhost/tanks.gif');
     });
 
-    it('renders three Tags, including a link', () => {
-        const wrapper = shallow(IMAGE);
+    it('renders three Tags, including a link and some content', () => {
+        render(IMAGE);
 
-        const tags = wrapper.find('Tag');
+        const tags = screen.getAllByTestId('tag');
+        const content = screen.getAllByTestId('image-content');
 
         expect(tags).toHaveLength(3);
+        expect(tags[0].getElementsByTagName('a')).toHaveLength(1);
 
-        expect(tags.get(0).props.tag).toHaveProperty('description', 'Some title');
-        expect(tags.get(0).props.tag).toHaveProperty('colour', '');
-        expect(tags.get(0).props.link).toBe('www.somelink.com');
-
-        expect(tags.get(1).props.tag).toHaveProperty('description', 'Tag 1');
-        expect(tags.get(1).props.tag).toHaveProperty('colour', '##F7D5A1');
-
-        expect(tags.get(2).props.tag).toHaveProperty('description', 'Tag 2');
-        expect(tags.get(2).props.tag).toHaveProperty('colour', '');
+        expect(content).toHaveLength(1);
+        expect(content[0].getElementsByTagName('p')[0]).toHaveTextContent('Some content');
     });
 
     it('renders three Tags inside appropriate containers', () => {
-        const wrapper = shallow(IMAGE);
+        render(IMAGE);
 
-        const upperContainer = wrapper.find('.image-tag-overlay-top');
-        const lowerContainer = wrapper.find('.image-tag-overlay-bottom');
+        const tags = screen.getAllByTestId('tag');
 
-        expect(upperContainer).toHaveLength(1);
-        expect(upperContainer.children()).toHaveLength(1);
-        expect(upperContainer.childAt(0).get(0).props.tag).toHaveProperty('description', 'Some title');
-
-        expect(lowerContainer).toHaveLength(1);
-        expect(lowerContainer.children()).toHaveLength(2);
-        expect(lowerContainer.childAt(0).get(0).props.tag).toHaveProperty('description', 'Tag 1');
-        expect(lowerContainer.childAt(1).get(0).props.tag).toHaveProperty('description', 'Tag 2');
+        expect(tags[0].parentElement).toHaveClass('image-tag-overlay-top');
+        expect(tags[1].parentElement).toHaveClass('image-tag-overlay-bottom');
+        expect(tags[2].parentElement).toHaveClass('image-tag-overlay-bottom');
     });
 
-    it('renders no tag containers when there are no Tags', () => {
-        const wrapper = shallow(SIMPLE_IMAGE);
+    it('renders no tags when there are no tags', () => {
+        render(SIMPLE_IMAGE);
 
-        const upperContainer = wrapper.find('.image-tag-overlay-top');
-        const lowerContainer = wrapper.find('.image-tag-overlay-bottom');
+        const tags = screen.queryAllByTestId('tag');
 
-        expect(upperContainer).toHaveLength(0);
-        expect(lowerContainer).toHaveLength(0);
+        expect(tags).toHaveLength(0);
     });
 
-    it('renders an ImageContent', () => {
-        const wrapper = shallow(IMAGE);
+    it('does not render an ImageContent when there is no content', () => {
+        render(SIMPLE_IMAGE);
 
-        const imageContent = wrapper.find('ImageContent');
-
-        expect(imageContent).toHaveLength(1);
-        expect(imageContent.get(0).props.content).toBe('Some content');
-    });
-
-    it('doesn\'t render an ImageContent when there is no content', () => {
-        const wrapper = shallow(SIMPLE_IMAGE);
-
-        const imageContent = wrapper.find('ImageContent');
+        const imageContent = screen.queryAllByTestId('image-content');
 
         expect(imageContent).toHaveLength(0);
     });
 
     it('renders a container with additional styles', () => {
-        const wrapper = shallow(IMAGE);
+        const { container } = render(IMAGE);
 
-        const container = wrapper.find('.overlay-container');
+        const overlayContainer = container.getElementsByClassName('overlay-container');
 
-        expect(container).toHaveLength(1);
-        expect(container.get(0).props.style).toHaveProperty('someStyleProp', 'true');
+        expect(overlayContainer).toHaveLength(1);
+        expect(overlayContainer[0].getAttribute('style')).toBe('--someStyleProp: true;');
     });
 
     it('renders a container without additional styles', () => {
-        const wrapper = shallow(SIMPLE_IMAGE);
+        const { container } = render(SIMPLE_IMAGE);
 
-        const container = wrapper.find('.overlay-container');
+        const overlayContainer = container.getElementsByClassName('overlay-container');
 
-        expect(container).toHaveLength(1);
-        expect(container.get(0).props.style).toEqual({});
+        expect(overlayContainer).toHaveLength(1);
+        expect(overlayContainer[0].getAttribute('style')).toBeNull();
     });
 
     it('renders an img with the correct classes', () => {
-        const wrapper = shallow(IMAGE);
+        render(IMAGE);
 
-        const img = wrapper.find('img');
+        const img = screen.getByRole('img');
 
-        expect(img.get(0).props.className).toBe('img-responsive');
-    });
-
-    it('renders a container with the correct classes', () => {
-        const wrapper = shallow(IMAGE);
-
-        const container = wrapper.find('.overlay-container');
-
-        expect(container.get(0).props.className).toBe('overlay-container');
-    });
-
-    it('renders tag containers with the correct classes', () => {
-        const wrapper = shallow(IMAGE);
-
-        const upperContainer = wrapper.find('.image-tag-overlay-top');
-        const lowerContainer = wrapper.find('.image-tag-overlay-bottom');
-
-        expect(upperContainer.get(0).props.className).toBe('image-tag-overlay-top');
-        expect(lowerContainer.get(0).props.className).toBe('image-tag-overlay-bottom');
+        expect(img.className).toBe('img-responsive');
     });
 });

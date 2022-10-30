@@ -1,4 +1,4 @@
-import { shallow, ShallowWrapper } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/react';
 import * as rrd from 'react-device-detect';
 
 import ImageContent from './ImageContent';
@@ -10,74 +10,69 @@ describe('<ImageContent />', () => {
         rrd.isMobile = false;
     });
 
-    const simulateEventOnEventListener = (wrapper: ShallowWrapper, event: string): void => {
-        // Some events behave weirdly when the element is not re-found
-        const eventListener = wrapper.find('.image-description-overlay-listener');
-
-        eventListener.simulate(event);
-    };
-
-    const imageContent = (
+    const IMAGE_CONTENT = (
         <ImageContent
             content="This is some image content"
         />
     );
 
     it('renders the content', () => {
-        const wrapper = shallow(imageContent);
+        const { container } = render(IMAGE_CONTENT);
 
-        const content = wrapper.find('.image-content-text');
+        const content = container.getElementsByClassName('image-content-text');
 
         expect(content).toHaveLength(1);
-        expect(content.get(0).props.children).toBe('This is some image content');
+        expect(content[0]).toHaveTextContent('This is some image content');
     });
 
     it('renders the background, content, and event listener components with the correct classes', () => {
-        const wrapper = shallow(imageContent);
+        render(IMAGE_CONTENT);
 
-        const components = wrapper.find('div');
+        const components = screen.getByTestId('image-content').children;
 
         expect(components).toHaveLength(3);
-        expect(components.get(0).props.className).toBe(
+        expect(components[0]).toHaveClass(
             'image-tag-overlay-top image-description-overlay background-fadeOut',
         );
-        expect(components.get(1).props.className).toBe('image-tag-overlay-top');
-        expect(components.get(2).props.className).toBe(
+        expect(components[1]).toHaveClass('image-tag-overlay-top');
+        expect(components[2]).toHaveClass(
             'image-tag-overlay-top image-description-overlay-listener',
         );
     });
 
     it('renders the content with the correct classes', () => {
-        const wrapper = shallow(imageContent);
+        const { container } = render(IMAGE_CONTENT);
 
-        const content = wrapper.find('.image-content-text');
+        const content = container.getElementsByClassName('image-content-text');
 
-        expect(content.get(0).props.className).toBe('image-content-text text-fadeOut');
+        expect(content[0]).toHaveClass('image-content-text text-fadeOut');
     });
 
     it('handles the appropriate events on desktop', () => {
-        const wrapper = shallow(imageContent);
+        const { container } = render(IMAGE_CONTENT);
 
-        simulateEventOnEventListener(wrapper, 'mouseOver');
+        const listener = container.getElementsByClassName('image-description-overlay-listener')[0];
 
-        expect(wrapper.find('.background-fadeIn')).toHaveLength(1);
-        expect(wrapper.find('.text-fadeIn')).toHaveLength(1);
-        expect(wrapper.find('.background-fadeOut')).toHaveLength(0);
-        expect(wrapper.find('.text-fadeOut')).toHaveLength(0);
+        fireEvent.mouseOver(listener);
 
-        simulateEventOnEventListener(wrapper, 'mouseLeave');
+        expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(1);
+        expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(1);
+        expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(0);
+        expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(0);
 
-        expect(wrapper.find('.background-fadeIn')).toHaveLength(0);
-        expect(wrapper.find('.text-fadeIn')).toHaveLength(0);
-        expect(wrapper.find('.background-fadeOut')).toHaveLength(1);
-        expect(wrapper.find('.text-fadeOut')).toHaveLength(1);
+        fireEvent.mouseLeave(listener);
 
-        simulateEventOnEventListener(wrapper, 'click');
+        expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(0);
+        expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(0);
+        expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(1);
+        expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(1);
 
-        expect(wrapper.find('.background-fadeIn')).toHaveLength(0);
-        expect(wrapper.find('.text-fadeIn')).toHaveLength(0);
-        expect(wrapper.find('.background-fadeOut')).toHaveLength(1);
-        expect(wrapper.find('.text-fadeOut')).toHaveLength(1);
+        fireEvent.click(listener);
+
+        expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(0);
+        expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(0);
+        expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(1);
+        expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(1);
     });
 
     describe('Mobile events', () => {
@@ -94,35 +89,37 @@ describe('<ImageContent />', () => {
         });
 
         it('handles the appropriate events on mobile', async () => {
-            const wrapper = shallow(imageContent);
+            const { container } = render(IMAGE_CONTENT);
 
-            simulateEventOnEventListener(wrapper, 'click');
+            const listener = container.getElementsByClassName('image-description-overlay-listener')[0];
 
-            expect(wrapper.find('.background-fadeIn')).toHaveLength(1);
-            expect(wrapper.find('.text-fadeIn')).toHaveLength(1);
-            expect(wrapper.find('.background-fadeOut')).toHaveLength(0);
-            expect(wrapper.find('.text-fadeOut')).toHaveLength(0);
+            fireEvent.click(listener);
 
-            simulateEventOnEventListener(wrapper, 'click');
+            expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(1);
+            expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(1);
+            expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(0);
+            expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(0);
 
-            expect(wrapper.find('.background-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.text-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.background-fadeOut')).toHaveLength(1);
-            expect(wrapper.find('.text-fadeOut')).toHaveLength(1);
+            fireEvent.click(listener);
 
-            simulateEventOnEventListener(wrapper, 'mouseOver');
+            expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(1);
+            expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(1);
 
-            expect(wrapper.find('.background-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.text-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.background-fadeOut')).toHaveLength(1);
-            expect(wrapper.find('.text-fadeOut')).toHaveLength(1);
+            fireEvent.mouseOver(listener);
 
-            simulateEventOnEventListener(wrapper, 'mouseLeave');
+            expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(1);
+            expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(1);
 
-            expect(wrapper.find('.background-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.text-fadeIn')).toHaveLength(0);
-            expect(wrapper.find('.background-fadeOut')).toHaveLength(1);
-            expect(wrapper.find('.text-fadeOut')).toHaveLength(1);
+            fireEvent.mouseLeave(listener);
+
+            expect(container.getElementsByClassName('background-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('text-fadeIn')).toHaveLength(0);
+            expect(container.getElementsByClassName('background-fadeOut')).toHaveLength(1);
+            expect(container.getElementsByClassName('text-fadeOut')).toHaveLength(1);
         });
     });
 });

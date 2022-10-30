@@ -74,7 +74,7 @@ const Collage = ({ images, layout }: ICollage): ReactElement => {
     const gridStyle = { '--grid-rows': height, '--grid-columns': width } as React.CSSProperties;
 
     return (
-        <div className="custom-grid custom-margin" style={gridStyle}>
+        <div data-testid="collage" className="custom-grid custom-margin" style={gridStyle}>
             {images.map((image, i) => (
                 <Image
                     key={i}

@@ -11,6 +11,7 @@ import logger from '../services/logService';
 
 const getMediumData = async (): Promise<any> => {
     const feed = await httpService.get('/medium');
+
     return feed.data;
 };
 
@@ -32,13 +33,15 @@ const Medium = (): ReactElement | null => {
     }
 
     return (
-        <Collage
-            images={mediumData}
-            layout={[
-                [0, 1],
-                [2, 3],
-            ]}
-        />
+        <div data-testid="medium">
+            <Collage
+                images={mediumData}
+                layout={[
+                    [0, 1],
+                    [2, 3],
+                ]}
+            />
+        </div>
     );
 };
 

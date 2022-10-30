@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 export interface ITagContent {
     description: string,
-    colour: string
+    colour?: string
 }
 
 interface ITag {
@@ -19,13 +19,19 @@ const Tag = ({ tag, link }: ITag): ReactElement => {
         style.cursor = 'pointer';
 
         return (
-            <a href={link}>
-                <div className="tag-text" style={style}>{description}</div>
-            </a>
+            <div data-testid="tag">
+                <a href={link}>
+                    <div className="tag-text" style={style}>{description}</div>
+                </a>
+            </div>
         );
     }
 
-    return <div className="tag-text" style={style}>{description}</div>;
+    return (
+        <div data-testid="tag">
+            <div className="tag-text" style={style}>{description}</div>
+        </div>
+    );
 };
 
 export default Tag;

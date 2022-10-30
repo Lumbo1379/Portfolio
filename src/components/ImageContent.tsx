@@ -9,7 +9,6 @@ const ImageContent = ({ content }: IImageContent): ReactElement => {
     const [show, setShow] = useState<boolean>(false);
 
     const handleOnClick = (): void => {
-        console.log(show);
         setShow(!show);
     };
 
@@ -25,7 +24,7 @@ const ImageContent = ({ content }: IImageContent): ReactElement => {
     const textClass = `image-content-text text-${fadeClass}`;
 
     return (
-        <>
+        <div data-testid="image-content">
             <div className={backgroundClasses} />
             <div className="image-tag-overlay-top">
                 <p className={textClass}>
@@ -38,7 +37,7 @@ const ImageContent = ({ content }: IImageContent): ReactElement => {
                 onMouseLeave={() => handleOnHover(true)}
                 onMouseOver={() => handleOnHover(false)}
             />
-        </>
+        </div>
     );
 };
 

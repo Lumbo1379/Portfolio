@@ -30,7 +30,7 @@ const Image = ({ src, alt, config = {} }: IImage): ReactElement => {
     }
 
     return (
-        <div className="overlay-container" style={config.style ?? {}}>
+        <div data-testid="image" className="overlay-container" style={config.style ?? {}}>
             <img
                 src={src}
                 className="img-responsive"

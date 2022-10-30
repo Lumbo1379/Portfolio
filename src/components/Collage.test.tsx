@@ -1,4 +1,5 @@
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+
 import Collage from './Collage';
 
 import arXRay from '../media/ar-x-ray.gif';
@@ -6,7 +7,7 @@ import tanks from '../media/tanks.gif';
 import soulSurvivor from '../media/soul-survivor.gif';
 
 describe('<Collage />', () => {
-    const collage = (
+    const COLLAGE = (
         <Collage
             images={[
                 {
@@ -30,34 +31,32 @@ describe('<Collage />', () => {
     );
 
     it('renders a grid with 2 rows and 2 columns', () => {
-        const wrapper = shallow(collage);
+        const { container } = render(COLLAGE);
 
-        const grid = wrapper.find('.custom-grid');
+        const grid = container.getElementsByClassName('custom-grid');
 
         expect(grid).toHaveLength(1);
-        expect(grid.get(0).props.style).toHaveProperty('--grid-rows', 2);
-        expect(grid.get(0).props.style).toHaveProperty('--grid-columns', 2);
+        expect(grid[0]).toHaveStyle('--grid-rows: 2; --grid-columns: 2');
     });
 
     it('renders 3 correctly formatted Images', () => {
-        const wrapper = shallow(collage);
+        const { container } = render(COLLAGE);
 
-        const images = wrapper.find('Image');
+        const images = screen.getAllByRole('img');
+        const containers = container.getElementsByClassName('overlay-container');
 
         expect(images).toHaveLength(3);
-        expect(images.get(0).props.config.style).toHaveProperty('gridColumn', '1 / 2');
-        expect(images.get(0).props.config.style).toHaveProperty('gridRow', '1 / 3');
-        expect(images.get(1).props.config.style).toHaveProperty('gridColumn', '2 / 3');
-        expect(images.get(1).props.config.style).toHaveProperty('gridRow', '1 / 2');
-        expect(images.get(2).props.config.style).toHaveProperty('gridColumn', '2 / 3');
-        expect(images.get(2).props.config.style).toHaveProperty('gridRow', '2 / 3');
+        expect(containers).toHaveLength(3);
+        expect(containers[0]).toHaveStyle('gridColumn: 1 / 2; gridRow: 1 / 3');
+        expect(containers[1]).toHaveStyle('gridColumn: 2 / 3; gridRow: 1 / 2');
+        expect(containers[2]).toHaveStyle('gridColumn: 2 / 3; gridRow: 2 / 3');
     });
 
     it('renders a grid with the correct classes', () => {
-        const wrapper = shallow(collage);
+        const { container } = render(COLLAGE);
 
-        const grid = wrapper.find('.custom-grid');
+        const grid = container.getElementsByClassName('custom-grid');
 
-        expect(grid.get(0).props.className).toBe('custom-grid custom-margin');
+        expect(grid[0]).toHaveClass('custom-grid custom-margin');
     });
 });

@@ -3,6 +3,7 @@ import { BrowserTracing } from '@sentry/tracing';
 import { toast } from 'react-toastify';
 
 const init = (): void => {
+    /* istanbul ignore next */
     Sentry.init({
         dsn: 'https://b67adde9099e41e2aaac2f953f90ec20@o1154516.ingest.sentry.io/6418501',
         integrations: [new BrowserTracing()],
@@ -14,15 +15,22 @@ const init = (): void => {
     });
 };
 
-const error = (e: any, showToast: boolean = true): void => {
-    // Sentry.captureException(error); // TODO: Ignore in development
-    if (showToast) {
-        toast.error(e); // TODO: Ignore in production, just log to console
-    } else {
-        // eslint-disable-next-line no-console
-        console.error(e);
+function error(err: Error, showToast: boolean = true): void {
+    /* istanbul ignore next */
+    if (process.env.REACT_APP_SEND_ERRORS_TO_SENTRY === 'true') {
+        Sentry.captureException(error);
     }
-};
+
+    if (showToast && process.env.REACT_APP_SHOW_TOAST_ERRORS === 'true') {
+        toast.error(err.message);
+    }
+
+    /* istanbul ignore next */
+    if (process.env.REACT_APP_LOG_ERRORS_TO_CONSOLE === 'true') {
+        // eslint-disable-next-line no-console
+        console.error(err);
+    }
+}
 
 export default {
     init,

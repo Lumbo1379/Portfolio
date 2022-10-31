@@ -29,7 +29,7 @@ const Medium = (): ReactElement | null => {
     if (!mediumData || mediumData.length === 0) return null;
 
     if (mediumData.length !== 4) {
-        logger.error('Exactly three articles and one profile picture are required');
+        logger.error(new Error('Exactly three articles and one profile picture are required'));
     }
 
     return (

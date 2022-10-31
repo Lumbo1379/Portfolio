@@ -69,7 +69,7 @@ describe('<Medium />', () => {
 
         await waitFor(() => {
             expect(loggerErrorSpy).toHaveBeenCalledWith(
-                'Exactly three articles and one profile picture are required',
+                new Error('Exactly three articles and one profile picture are required'),
             );
             expect(screen.queryAllByTestId('medium')).toHaveLength(1);
         });

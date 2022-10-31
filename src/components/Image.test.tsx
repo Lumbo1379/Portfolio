@@ -147,7 +147,7 @@ describe('<Image />', () => {
         />);
 
         expect(loggerErrorSpy).toHaveBeenCalledWith(
-            'Images can contain no more than two tag sets',
+            new Error('Images can contain no more than two tag sets'),
         );
         expect(screen.getByRole('img')).toBeTruthy();
     });

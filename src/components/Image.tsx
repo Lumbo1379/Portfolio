@@ -26,7 +26,7 @@ const renderTags = (tags: ITagContent[], link?: string): ReactElement[] => tags.
 
 const Image = ({ src, alt, config = {} }: IImage): ReactElement => {
     if (config.tags && config.tags.length > 2) {
-        logger.error('Images can contain no more than two tag sets');
+        logger.error(new Error('Images can contain no more than two tag sets'));
     }
 
     return (

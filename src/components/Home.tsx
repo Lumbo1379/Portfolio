@@ -31,7 +31,7 @@ const Home = (): ReactElement | null => {
     if (!projects || projects.length === 0) return null;
 
     return (
-        <div>
+        <div data-testid="home">
             <Headline
                 content="Software and game developer"
                 keywords={{ Software: '#F6BD60', developer: '#F5CAC3' }}
@@ -49,13 +49,3 @@ const Home = (): ReactElement | null => {
 };
 
 export default Home;
-
-/*
-TODO:
-- envs for prod and dev for logging
-- tag colours
-- tag translations
-- allowed / disallowed tags
-- click on article to load in new tab
-- link icons, e.g. git, medium, youtube
-*/

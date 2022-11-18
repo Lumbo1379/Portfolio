@@ -32,7 +32,7 @@ jobs:
         run: npm install
 
       - name: Run eslint
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0
 
       - name: Run tests and generate coverage report
         run: npm test -- --coverage

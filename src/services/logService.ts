@@ -30,7 +30,7 @@ const error = (err: Error, showToast: boolean = true): void => {
         // eslint-disable-next-line no-console
         console.error(err);
     }
-}
+};
 
 export default {
     init,

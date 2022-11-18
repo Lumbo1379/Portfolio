@@ -1,8 +1,9 @@
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+
 import Headline from './Headline';
 
 describe('<Headline />', () => {
-    const headline = (
+    const HEADLINE = (
         <Headline
             content="This is my headline"
             keywords={{ is: '#FF0000', headline: '#0000FF' }}
@@ -10,35 +11,38 @@ describe('<Headline />', () => {
     );
 
     it('renders two <span> for the two keywords', () => {
-        const wrapper = shallow(headline);
+        const { container } = render(HEADLINE);
 
-        const keywords = wrapper.find('span');
+        const keywords = container.getElementsByTagName('span');
 
         expect(keywords).toHaveLength(2);
-        expect(keywords.get(0).props.style).toHaveProperty('color', '#FF0000');
-        expect(keywords.get(1).props.style).toHaveProperty('color', '#0000FF');
+        expect(keywords[0]).toHaveStyle('background: #FF0000');
+        expect(keywords[1]).toHaveStyle('background: #0000FF');
     });
 
     it('renders a h1 with the correct classes', () => {
-        const wrapper = shallow(headline);
+        render(HEADLINE);
 
-        const h1 = wrapper.find('h1');
+        const h1 = screen.getByRole('heading');
 
-        expect(h1).toHaveLength(1);
-        expect(h1.get(0).props.className).toBe('display-1');
+        expect(h1).toHaveClass('display-1');
     });
 
     it('displays the content', () => {
-        const wrapper = shallow(headline);
+        render(HEADLINE);
 
-        expect(wrapper.text().includes('This is my headline')).toBeTruthy();
+        const h1 = screen.getByRole('heading');
+
+        expect(h1).toHaveTextContent('This is my headline');
     });
 
     it('displays the content without passing keywords', () => {
-        const wrapper = shallow(<Headline content="This is my headline" />);
-        const keywords = wrapper.find('span');
+        const { container } = render(<Headline content="This is my headline" />);
+
+        const keywords = container.getElementsByTagName('span');
+        const h1 = screen.getByRole('heading');
 
         expect(keywords).toHaveLength(0);
-        expect(wrapper.text().includes('This is my headline')).toBeTruthy();
+        expect(h1).toHaveTextContent('This is my headline');
     });
 });

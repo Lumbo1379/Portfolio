@@ -27,6 +27,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "arrow-body-style": "warn",
+        "comma-dangle": "warn",
         "guard-for-in": "off",
         "import/extensions": [
             "error",
@@ -36,8 +38,14 @@
                 "tsx": "never"
             }
         ],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "indent": ["error", 4],
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/mouse-events-have-key-events": "off",
+        "jsx-a11y/no-static-element-interactions": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
         "max-len": ["warn", { "code": 110 }],
+        "no-empty": "warn",
         "no-plusplus": [
             "error",
             {
@@ -45,6 +53,7 @@
             }
         ],
         "no-restricted-syntax": "off",
+        "no-trailing-spaces": "warn",
         "no-unused-vars": "warn",
         "object-curly-newline": "warn",
         "quotes": "warn",
@@ -58,7 +67,10 @@
         "react/jsx-indent" : ["error", 4],
         "react/jsx-indent-props" : ["error", 4],
         "react/no-array-index-key": "off",
+        "react/no-unused-prop-types": "warn",
         "react/require-default-props": "off",
+        "react/jsx-no-useless-fragment": "warn",
+        "semi": "warn",
         "@typescript-eslint/explicit-function-return-type": [
             "error",
             {

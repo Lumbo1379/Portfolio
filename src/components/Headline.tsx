@@ -15,7 +15,7 @@ const Headline = ({ content, keywords = {} }: IHeadline): ReactElement => {
     const words = content.split(' ');
 
     return (
-        <h1 className="display-1">
+        <h1 data-testid="headline" className="display-1">
             {words.map((word, i, { length }) => {
                 const whitespace = i + 1 === length ? '' : ' ';
 
@@ -23,7 +23,7 @@ const Headline = ({ content, keywords = {} }: IHeadline): ReactElement => {
                     ? (
                         <span
                             key={i}
-                            style={{ color: `${keywords[word]}` }}
+                            style={{ background: `${keywords[word]}` }}
                         >
                             {getWord(word, whitespace)}
                         </span>

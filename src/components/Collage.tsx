@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import Image from './Image';
+import Image, { IImage } from './Image';
 import getHeightAndWidth from '../utils';
 
 type FormattedGridLayout = { [key: number]: { [key: string]: string } };
@@ -11,7 +11,7 @@ type UnFormattedGridLayout = { [key: number]: [
 ]};
 
 interface ICollage {
-    images: string[]
+    images: IImage[]
     layout: number[][]
 }
 
@@ -74,13 +74,16 @@ const Collage = ({ images, layout }: ICollage): ReactElement => {
     const gridStyle = { '--grid-rows': height, '--grid-columns': width } as React.CSSProperties;
 
     return (
-        <div className="custom-grid custom-margin" style={gridStyle}>
-            {images.map((src, i) => (
+        <div data-testid="collage" className="custom-grid custom-margin" style={gridStyle}>
+            {images.map((image, i) => (
                 <Image
-                    src={src}
-                    alt="Some image"
-                    style={gridPositions[i]}
                     key={i}
+                    src={image.src}
+                    alt={image.alt}
+                    config={{
+                        style: gridPositions[i],
+                        ...image.config,
+                    }}
                 />
             ))}
         </div>

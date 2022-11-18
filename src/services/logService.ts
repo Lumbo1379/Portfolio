@@ -15,7 +15,7 @@ const init = (): void => {
     });
 };
 
-function error(err: Error, showToast: boolean = true): void {
+const error = (err: Error, showToast: boolean = true): void => {
     /* istanbul ignore next */
     if (process.env.REACT_APP_SEND_ERRORS_TO_SENTRY === 'true') {
         Sentry.captureException(error);

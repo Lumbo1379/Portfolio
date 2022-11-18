@@ -19,7 +19,7 @@ describe('<Image />', () => {
                 ], [
                     {
                         description: 'Tag 1',
-                        colour: '##F7D5A1',
+                        colour: '#F7D5A1',
                     },
                     {
                         description: 'Tag 2',

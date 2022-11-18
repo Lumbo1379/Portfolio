@@ -5,18 +5,19 @@ import {
 } from 'react';
 
 import Collage from './Collage';
+import { IImage } from './Image';
 
 import httpService from '../services/httpService';
 import logger from '../services/logService';
 
-const getMediumData = async (): Promise<any> => {
+const getMediumData = async (): Promise<IImage[]> => {
     const feed = await httpService.get('/medium');
 
     return feed.data;
 };
 
 const Medium = (): ReactElement | null => {
-    const [mediumData, setMediumData] = useState<any>([]);
+    const [mediumData, setMediumData] = useState<IImage[]>([]);
 
     useEffect(() => {
         const loadMediumData = async (): Promise<void> => {

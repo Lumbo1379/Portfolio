@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement, CSSProperties } from 'react';
 
 export interface ITagContent {
     description: string,
@@ -10,26 +10,44 @@ interface ITag {
     link?: string
 }
 
-const Tag = ({ tag, link }: ITag): ReactElement => {
-    const { colour, description }: ITagContent = tag;
+interface ITagText {
+    description: string,
+    style: CSSProperties,
+    link?: string
+}
 
-    const style = { '--tag-colour': colour || '#F7D5A1' } as React.CSSProperties;
+const getStyle = (hasLink: boolean, colour?: string): CSSProperties => {
+    const style = { '--tag-colour': colour || '#F7D5A1' } as CSSProperties;
+
+    if (hasLink) {
+        style.cursor = 'pointer';
+    }
+
+    return style;
+};
+
+const getTagText = ({ description, style, link }: ITagText): ReactElement => {
+    const text = <div className="tag-text" style={style}>{description}</div>;
 
     if (link) {
-        style.cursor = 'pointer';
-
         return (
-            <div data-testid="tag">
-                <a href={link}>
-                    <div className="tag-text" style={style}>{description}</div>
-                </a>
-            </div>
+            <a href={link}>
+                {text}
+            </a>
         );
     }
 
+    return text;
+};
+
+const Tag = ({ tag, link }: ITag): ReactElement => {
+    const { colour, description }: ITagContent = tag;
+
+    const style = getStyle(link !== undefined && link !== '', colour);
+
     return (
         <div data-testid="tag">
-            <div className="tag-text" style={style}>{description}</div>
+            {getTagText({ description, style, link })}
         </div>
     );
 };

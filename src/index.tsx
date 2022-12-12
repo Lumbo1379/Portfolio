@@ -4,7 +4,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import logger from './services/logService';
 
-import './main.css';
 import './index.css';
 
 ReactDOM.render(

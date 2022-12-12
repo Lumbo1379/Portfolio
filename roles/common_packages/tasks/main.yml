@@ -1,0 +1,19 @@
+- name: Install Common Packages
+  become: true
+  apt:
+    update_cache: true
+    state: present
+    name:
+      # Development tools
+      - git
+      - make
+
+      # QoL tools
+      - tmux
+      - vim
+
+      # Debugging and investigation tools
+      - htop
+
+      # Misc
+      - curl

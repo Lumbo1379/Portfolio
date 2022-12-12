@@ -1,0 +1,28 @@
+- name: Install Packages for React Development
+  become: true
+  apt:
+    update_cache: true
+    state: present
+    name:
+      - npm
+
+- name: Install create-react-app Globally
+  become: true
+  npm:
+    global: true
+    name: create-react-app
+
+- name: Check if nvm is Installed
+  stat:
+    path: ~/.nvm/nvm.sh
+  register:
+    nvm_directory
+
+- name: Install nvm
+  shell: curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && source ~/.bashrc
+  when: not nvm_directory.stat.exists
+
+- name: Install Node 18 and Use it
+  shell: |
+    bash -c '. ~/.nvm/nvm.sh; nvm install 18'
+    bash -c '. ~/.nvm/nvm.sh; nvm use 18'

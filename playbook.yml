@@ -1,0 +1,6 @@
+- hosts: laptop
+  roles:
+    - role: common_packages
+      tags: [common]
+    - role: react_development
+      tags: [react, frontend]
